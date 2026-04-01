@@ -1,0 +1,16 @@
+{
+  "name": "text-simplification",
+  "version": "1.0.0",
+  "description": "This project is a text simplification tool developed using a **T5-small** transformer model. It includes a Python/Flask backend API, a React-based frontend interface, and an evaluation notebook for rigorous performance analysis.",
+  "main": "generate_report.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "docx": "^9.6.1"
+  }
+}

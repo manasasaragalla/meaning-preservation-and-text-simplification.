@@ -1,0 +1,14 @@
+flask
+flask-cors
+transformers
+torch
+sacrebleu
+textstat
+pandas
+nltk
+sentencepiece
+evaluate
+sentence-transformers
+scikit-learn
+pytest
+absl-py

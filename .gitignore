@@ -1,0 +1,11 @@
+node_modules/
+venv/
+__pycache__/
+*.pyc
+.env
+.pytest_cache/
+evaluation_results.csv
+*.safetensors
+*.bin
+*.pt
+.DS_Store
