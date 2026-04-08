@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from model import simplify_text, MODEL_NAME
 from evaluation_metrics import compute_scores
+import time
 
 app = Flask(__name__)
 CORS(app)  # allows React frontend to call this API
@@ -43,14 +44,18 @@ def simplify():
     if len(original) < 5:
         return jsonify({"error": "Text too short. Provide at least 5 characters."}), 400
 
+    start_t = time.time()
     simplified = simplify_text(original)
+    inference_time_ms = int((time.time() - start_t) * 1000)
+    
     reference  = data.get("reference", None)
     scores     = compute_scores(original, simplified, reference)
 
     return jsonify({
         "original":   original,
         "simplified": simplified,
-        "scores":     scores
+        "scores":     scores,
+        "inference_time_ms": inference_time_ms
     })
 
 # -------------------------------------------------

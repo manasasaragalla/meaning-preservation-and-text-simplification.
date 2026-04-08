@@ -38,6 +38,35 @@ A full-stack AI-powered text simplification tool built using the **FLAN-T5 Base*
 
 ---
 
+## 🧱 System Architecture
+
+```mermaid
+flowchart TD
+    subgraph Frontend [React Application]
+        A["Dashboard UI (App.js)"]
+        B["Visual Diff Engine"]
+        C["Metrics Renderer"]
+    end
+
+    subgraph Backend [Flask REST API]
+        D["API Gateway (app.py)"]
+        E["FLAN-T5 Model (model.py)"]
+        F["Metrics Engine (evaluation.py)"]
+    end
+
+    A -- "POST JSON Request" --> D
+    D -- "Encode Payload" --> E
+    E -- "Autoregressive Generation" --> D
+    D -- "Context & References" --> F
+    F -- "compute_scores()" --> D
+    D -- "JSON Response + Latency" --> A
+    A -- "Render Token Diffs" --> B
+    A -- "Update Progress Bars" --> C
+
+```
+
+---
+
 ## 📚 Literature Review & Survey
 
 ### 1. Text Simplification: Overview
