@@ -1,16 +1,16 @@
 from transformers import T5ForConditionalGeneration, T5Tokenizer
 
-MODEL_NAME = "agentlans/flan-t5-small-simplifier"
+MODEL_NAME = "google/flan-t5-base"
 
-print(f"Loading specialized model {MODEL_NAME}... (size ~240MB)")
+print(f"Loading upgraded model {MODEL_NAME}... (size ~900MB)")
 tokenizer = T5Tokenizer.from_pretrained(MODEL_NAME)
 model = T5ForConditionalGeneration.from_pretrained(MODEL_NAME)
 model.eval()
-print("Model ready!")
+print("High-performance model ready!")
 
 def simplify_text(text: str) -> str:
-    # This specialized model works best with a simple "simplify: " prefix
-    input_text = "simplify: " + text.strip()
+    # Forceful prompt for FLAN-T5
+    input_text = f"Rewrite the following sentence in very simple words so a child can understand: {text.strip()}"
     
     inputs = tokenizer.encode(
         input_text,
@@ -22,16 +22,14 @@ def simplify_text(text: str) -> str:
     outputs = model.generate(
         inputs,
         max_length=150,
-        min_length=5,
-        num_beams=4,
-        no_repeat_ngram_size=3,
+        min_length=10,
+        do_sample=True, # Enable sampling for more variety
+        top_k=50,
+        top_p=0.95,
+        repetition_penalty=2.5, # Very strong penalty to avoid complexes
+        no_repeat_ngram_size=2,
         early_stopping=True
     )
     
     simplified = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    
-    # Extra safety: if the model echoed the prefix, remove it
-    if simplified.lower().startswith("simplify:"):
-        simplified = simplified[9:].strip()
-        
     return simplified
