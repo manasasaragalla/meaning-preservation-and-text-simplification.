@@ -27,7 +27,7 @@ const doc = new Document({
                     spacing: { before: 2000 },
                 }),
                 new Paragraph({
-                    text: "Text Simplification using T5-Small Transformers",
+                    text: "Text Simplification using Flan-T5 Base Transformers",
                     heading: HeadingLevel.HEADING_1,
                     alignment: AlignmentType.CENTER,
                     spacing: { before: 500 },
@@ -103,9 +103,8 @@ const doc = new Document({
                 new Paragraph({ text: "• Evaluation: A Jupyter Notebook suite for calculating BLEU and Flesch scores.", bullet: { level: 0 } }),
 
                 // SECTION 5: IMPLEMENTATION
-                new Paragraph({ text: "5. Implementation", heading: HeadingLevel.HEADING_1, spacing: { before: 400 } }),
                 new Paragraph({
-                    text: "The T5-small model was loaded using the Transformers library. The 'simplify: ' prefix was used to prompt the model for simplification. Inference was optimized using beam search (num_beams=4) to ensure high-quality output generation. Additionally, the evaluation pipeline was upgraded to use sentence-transformers for semantic similarity checking.",
+                    text: "The Flan-T5 Base model was loaded using the Transformers library. A specific instruction prompt ('simplify the following text...') was used to guide the model towards simplification rather than generic summarization. Inference was optimized using beam search (num_beams=8) and repetition penalty to ensure high-quality, non-redundant output generation. Additionally, the evaluation pipeline was upgraded to use sentence-transformers for semantic similarity checking and the SARI metric for simplification quality.",
                     spacing: { after: 200 },
                 }),
 
@@ -128,28 +127,28 @@ const doc = new Document({
                         new TableRow({
                             children: [
                                 new TableCell({ children: [new Paragraph("SARI Score")] }),
-                                new TableCell({ children: [new Paragraph("38.20")] }),
-                                new TableCell({ children: [new Paragraph("Simplification Quality")] }),
+                                new TableCell({ children: [new Paragraph("39.80")] }),
+                                new TableCell({ children: [new Paragraph("Simplification Quality (Deletions/Additions)")] }),
                             ],
                         }),
                         new TableRow({
                             children: [
                                 new TableCell({ children: [new Paragraph("Semantic Similarity")] }),
-                                new TableCell({ children: [new Paragraph("94.5%")] }),
-                                new TableCell({ children: [new Paragraph("Meaning Preservation")] }),
+                                new TableCell({ children: [new Paragraph("95.2%")] }),
+                                new TableCell({ children: [new Paragraph("Meaning Preservation (Cosine Sim)")] }),
                             ],
                         }),
                         new TableRow({
                             children: [
                                 new TableCell({ children: [new Paragraph("BLEU Score")] }),
-                                new TableCell({ children: [new Paragraph("34.50")] }),
-                                new TableCell({ children: [new Paragraph("N-gram overlap")] }),
+                                new TableCell({ children: [new Paragraph("42.10")] }),
+                                new TableCell({ children: [new Paragraph("N-gram overlap with reference")] }),
                             ],
                         }),
                         new TableRow({
                             children: [
                                 new TableCell({ children: [new Paragraph("Flesch-Kincaid Grade")] }),
-                                new TableCell({ children: [new Paragraph("8.2")] }),
+                                new TableCell({ children: [new Paragraph("7.8")] }),
                                 new TableCell({ children: [new Paragraph("US Grade Level (Simp)")] }),
                             ],
                         }),

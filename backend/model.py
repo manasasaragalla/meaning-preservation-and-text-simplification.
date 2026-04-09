@@ -4,7 +4,10 @@ MODEL_NAME = "google/flan-t5-base"
 
 print(f"Loading upgraded model {MODEL_NAME}... (size ~900MB)")
 tokenizer = T5Tokenizer.from_pretrained(MODEL_NAME)
-model = T5ForConditionalGeneration.from_pretrained(MODEL_NAME)
+model = T5ForConditionalGeneration.from_pretrained(
+    MODEL_NAME,
+    low_cpu_mem_usage=True  # Optimizes memory during loading
+)
 model.eval()
 print("High-performance model ready!")
 
