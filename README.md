@@ -6,10 +6,11 @@ A full-stack AI-powered text simplification tool built using the **FLAN-T5 Base*
 - **Real-time Simplification**: Input complex text and receive a simplified version instantly.
 - **REST API**: Flask-based backend for model management and inference.
 - **Visual Analysis**: Word-level diff highlighting removed, added, and preserved tokens.
-- **Research Sidebar**: Curated academic references with a metric glossary.
-- **Simplification History**: Persistent session history with `localStorage`.
+- **Collapsible Research Sidebar**: Interactive Accordion-style dashboard with categorized references.
+- **Categorized Bibliography**: Logical grouping of research into "Same/Similar Datasets" vs "Different Datasets".
+- **Simplification History**: Persistent session history with `localStorage` and latency tracking.
 - **Evaluation Dashboard**: Jupyter Notebook with 7 visualisations and multi-metric analysis.
-- **Metrics**: SARI, BLEU, Flesch Reading Ease, Flesch-Kincaid Grade Level, Semantic Similarity.
+- **Academic Metrics**: SARI, BLEU, Flesch Reading Ease, Flesch-Kincaid Grade Level, Semantic Similarity.
 
 ---
 
