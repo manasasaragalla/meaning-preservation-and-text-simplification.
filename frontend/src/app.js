@@ -45,22 +45,66 @@ function ScoreRing({ value, label, color }) {
 
 function WordDiff({ original, simplified }) {
   if (!original || !simplified) return null;
-  const origWords = original.split(" ");
-  const simpSet = new Set(simplified.split(" ").map((w) => w.toLowerCase().replace(/[^a-z]/g, "")));
+
+  const clean = (w) => w.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const origWords = original.split(/\s+/);
+  const simpWords = simplified.split(/\s+/);
+
+  // Simple diff logic: find words in original NOT in simplified (deleted)
+  // and words in simplified NOT in original (added)
+  // We align them by showing deleted words first, then the remaining flow
+  const simpSet = new Set(simpWords.map(clean));
+  const origSet = new Set(origWords.map(clean));
+
   return (
-    <div style={{ fontSize: 13, lineHeight: 1.8 }}>
-      <span style={{ fontSize: 11, fontWeight: 500, color: "#9ca3af", display: "block", marginBottom: 6 }}>WORDS SIMPLIFIED</span>
-      {origWords.map((word, i) => {
-        const kept = simpSet.has(word.toLowerCase().replace(/[^a-z]/g, ""));
-        return (
-          <span key={i} style={{
-            display: "inline-block", marginRight: 4, padding: "1px 4px", borderRadius: 4,
-            background: kept ? "transparent" : "#fee2e2",
-            color: kept ? "#6b7280" : "#dc2626",
-            textDecoration: kept ? "none" : "line-through", fontSize: 13,
-          }}>{word}</span>
-        );
-      })}
+    <div style={{ fontSize: 13, lineHeight: 2.2 }}>
+      <div style={{ display: "flex", gap: 16, marginBottom: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <div style={{ width: 12, height: 12, borderRadius: 3, background: "#fee2e2", border: "1px solid #fecaca" }}></div>
+          <span style={{ fontSize: 11, color: "#6b7280", fontWeight: 600 }}>REMOVED</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <div style={{ width: 12, height: 12, borderRadius: 3, background: "#dcfce7", border: "1px solid #bbf7d0" }}></div>
+          <span style={{ fontSize: 11, color: "#6b7280", fontWeight: 600 }}>ADDED</span>
+        </div>
+      </div>
+
+      <div style={{ padding: "16px", background: "#f9fafb", borderRadius: 12, border: "1px solid #f1f5f9" }}>
+        <span style={{ fontSize: 10, fontWeight: 700, color: "#9ca3af", display: "block", marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.05em" }}>Unified Difference Map</span>
+        
+        <div style={{ wordBreak: "break-word" }}>
+          {/* Show original words: if missing in simp, show as DELETED. If present, show normally. */}
+          {origWords.map((word, i) => {
+            const isRemoved = !simpSet.has(clean(word));
+            return (
+              <span key={`del-${i}`} style={{
+                display: "inline-block", marginRight: 6, padding: "2px 4px", borderRadius: 4,
+                background: isRemoved ? "#fee2e2" : "transparent",
+                color: isRemoved ? "#dc2626" : "#64748b",
+                textDecoration: isRemoved ? "line-through" : "none",
+                fontWeight: isRemoved ? 500 : 400
+              }}>{word}</span>
+            );
+          })}
+          
+          <div style={{ display: "inline-block", width: 1, height: 14, background: "#e2e8f0", margin: "0 10px", verticalAlign: "middle" }}></div>
+          
+          {/* Show simplified words that are NEW */}
+          {simpWords.map((word, i) => {
+            const isAdded = !origSet.has(clean(word));
+            if (!isAdded) return null;
+            return (
+              <span key={`add-${i}`} style={{
+                display: "inline-block", marginRight: 6, padding: "2px 6px", borderRadius: 4,
+                background: "#dcfce7",
+                color: "#166534",
+                fontWeight: 600,
+                border: "1px solid #bbf7d0"
+              }}>{word}</span>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
